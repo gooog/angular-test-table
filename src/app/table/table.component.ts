@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ApiService} from "../api.service";
+import {ApiService} from '../api.service';
 
 @Component({
   selector: 'app-table',
@@ -11,6 +11,7 @@ export class TableComponent implements OnInit {
   itemsTotal: number;
   itemsPerPage: number;
   currentPage: number;
+  totalPages: number;
   data: any[];
 
   constructor(private apiService: ApiService) { }
@@ -28,15 +29,15 @@ export class TableComponent implements OnInit {
 
   request() {
     this.apiService.load(this.currentPage, this.itemsPerPage).then( (response) => {
-      console.log(response);
-
       this.itemsTotal = response.totalNum;
       this.data = response.data;
+      this.totalPages = Math.ceil(this.itemsTotal / this.itemsPerPage);
     });
   }
 
-  pageChanging(p) {
-    console.log('pagen envent detected:', p);
+    pageChaned(p) {
+      this.currentPage = p;
+      this.request();
   }
 
 }

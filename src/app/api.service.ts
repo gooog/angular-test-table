@@ -306,8 +306,9 @@ export class ApiService {
     {"id":299,"first_name":"Ronica","last_name":"Maling","email":"rmaling8a@pinterest.com","gender":"Female","ip_address":"198.207.110.14"},
     {"id":300,"first_name":"Brear","last_name":"Bennetto","email":"bbennetto8b@google.co.jp","gender":"Female","ip_address":"67.47.178.227"}];
 
-  load(pageNun: number, itemsNum): Promise<any> {
-    const response = {totalNum: this.data.length, data: this.data.slice(0, itemsNum)}
+  load(currentPage: number, itemsPerPage: number): Promise<any> {
+    const sliceStartPoint = ( currentPage - 1 ) * itemsPerPage
+    const response = {totalNum: this.data.length, data: this.data.slice(sliceStartPoint, sliceStartPoint + itemsPerPage )}
     return Promise.resolve(response);
   }
 

@@ -1,21 +1,18 @@
-<ul class="pagination">
-  <li *ngFor="let p of pages"><a (click)="pChange(p)">{{p}}</a></li>
-</ul>
-
-
 <nav>
   <ul class="pagination">
-    <li class="page-item">
-      <a class="page-link" href="#" aria-label="Previous">
+    <li class="page-item" *ngIf="activePage > 1">
+      <a class="page-link cursor-pointer" (click)="pChange(activePage - 1)" aria-label="Previous">
         <span aria-hidden="true">&laquo;</span>
         <span class="sr-only">Previous</span>
       </a>
     </li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#" aria-label="Next">
+
+    <li class="page-item" [ngClass]="{'active': p == activePage}" *ngFor="let p of pages">
+      <a class="page-link cursor-pointer" (click)="p !== '...' ? pChange(p) : false">{{p}}</a>
+    </li>
+
+    <li class="page-item" *ngIf="totalPages > activePage">
+      <a class="page-link cursor-pointer" (click)="pChange(activePage + 1)" aria-label="Next">
         <span aria-hidden="true">&raquo;</span>
         <span class="sr-only">Next</span>
       </a>
