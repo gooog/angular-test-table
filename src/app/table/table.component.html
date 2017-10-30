@@ -6,6 +6,10 @@
     <button type="button" class="btn margin-right-6" [ngClass]="{'btn-primary' : itemsPerPage == 100, 'btn-secondary': itemsPerPage !== 100}" (click)="itemsPerPageChange(100)">100</button>
   </div>
   <hr>
+  <div class="row">
+    <input type="text" class="form-control" (keyup)="search($event.target.value)" placeholder="Enter search keyword here...">
+  </div>
+  <hr>
 <table class="table">
   <thead>
   <tr>

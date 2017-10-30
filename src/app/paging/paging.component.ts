@@ -54,7 +54,7 @@ export class PagingComponent implements OnInit, OnChanges {
     }
 
     pChange(p) {
-        this.activePage = p;
+        //this.activePage = p;
         this.onPageChange.emit(p);
         this.generatePages();
     }

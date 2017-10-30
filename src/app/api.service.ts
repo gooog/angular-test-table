@@ -313,5 +313,29 @@ export class ApiService {
     return Promise.resolve(response);
   }
 
+  search(keyWord: string): Promise<any> {
+    const response = this.data.filter( (arr) => {
+      /*Object.keys(arr).map((key) => {
+        const str = arr[key].toString();
+        const matchFound = false;
+        if (str.indexOf(keyWord) !== -1) {
+          matchFound = true;
+        }
+        });*/
+
+      if (
+        arr.first_name.toString().includes(keyWord) ||
+        arr.last_name.toString().includes(keyWord) ||
+        arr.email.toString().includes(keyWord) ||
+        arr.gender.toString().includes(keyWord) ||
+        arr.ip_address.toString().includes(keyWord)
+      ) {
+        return true;
+      }
+
+    });
+    return Promise.resolve(response);
+  }
+
 }
 

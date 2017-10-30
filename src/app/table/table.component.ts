@@ -17,6 +17,10 @@ export class TableComponent implements OnInit {
   constructor(private apiService: ApiService) { }
 
   ngOnInit() {
+    this.init();
+  }
+
+  init() {
     this.itemsPerPage = 20;
     this.currentPage = 1;
     this.request();
@@ -43,6 +47,20 @@ export class TableComponent implements OnInit {
     pageChaned(p) {
       this.currentPage = p;
       this.request();
+  }
+
+  search(keyword: string) {
+    if (keyword.length >= 2) {
+      this.apiService.search(keyword).then((data) => {
+        this.itemsTotal = data.length;
+        this.data = data;
+        this.currentPage = 1;
+        this.itemsPerPage = 20;
+        this.totalPages = Math.ceil(this.itemsTotal / this.itemsPerPage);
+      });
+    } else {
+      this.init();
+    }
   }
 
 }
