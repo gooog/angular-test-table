@@ -8,7 +8,7 @@
     </li>
 
     <li class="page-item" [ngClass]="{'active': p == activePage}" *ngFor="let p of pages">
-      <a class="page-link cursor-pointer" (click)="p !== '...' ? pChange(p) : false">{{p}}</a>
+      <a class="page-link cursor-pointer" [ngClass]="{'noselect': p === '...'}" (click)="p !== '...' ? pChange(p) : false">{{p}}</a>
     </li>
 
     <li class="page-item" *ngIf="totalPages > activePage">
