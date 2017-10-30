@@ -24,6 +24,11 @@ export class TableComponent implements OnInit {
 
   itemsPerPageChange(perPage) {
     this.itemsPerPage = perPage;
+    this.currentPage = 1;
+    this.totalPages = Math.ceil(this.itemsTotal / this.itemsPerPage );
+
+    console.log(this.itemsPerPage, this.currentPage, this.totalPages);
+
     this.request();
   }
 

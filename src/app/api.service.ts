@@ -5,7 +5,8 @@ export class ApiService {
 
   constructor() { }
 
-  data = [{"id":1,"first_name":"Merrill","last_name":"Peschmann","email":"mpeschmann0@elegantthemes.com","gender":"Male","ip_address":"251.140.38.3"},
+  data = [
+      {"id":1,"first_name":"Merrill","last_name":"Peschmann","email":"mpeschmann0@elegantthemes.com","gender":"Male","ip_address":"251.140.38.3"},
     {"id":2,"first_name":"Junette","last_name":"Posselwhite","email":"jposselwhite1@is.gd","gender":"Female","ip_address":"176.39.27.235"},
     {"id":3,"first_name":"Farand","last_name":"Lansberry","email":"flansberry2@constantcontact.com","gender":"Female","ip_address":"137.78.76.70"},
     {"id":4,"first_name":"Theressa","last_name":"Scoterbosh","email":"tscoterbosh3@state.gov","gender":"Female","ip_address":"39.43.45.234"},
@@ -307,7 +308,7 @@ export class ApiService {
     {"id":300,"first_name":"Brear","last_name":"Bennetto","email":"bbennetto8b@google.co.jp","gender":"Female","ip_address":"67.47.178.227"}];
 
   load(currentPage: number, itemsPerPage: number): Promise<any> {
-    const sliceStartPoint = ( currentPage - 1 ) * itemsPerPage
+    const sliceStartPoint = ( currentPage - 1 ) * itemsPerPage;
     const response = {totalNum: this.data.length, data: this.data.slice(sliceStartPoint, sliceStartPoint + itemsPerPage )}
     return Promise.resolve(response);
   }

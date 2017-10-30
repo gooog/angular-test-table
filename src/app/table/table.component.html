@@ -1,10 +1,11 @@
 <div class="container">
-  <div class="row">Total: {{itemsTotal}}</div>
+  <div class="row"><h2>Total: {{itemsTotal}}</h2></div>
   <div class="row">
-    <button type="button" class="btn btn-secondary" [ngClass]="{'btn-primary' : itemsPerPage == 20}" (click)="itemsPerPageChange(20)">20</button>
-    <button type="button" class="btn btn-secondary" [ngClass]="{'btn-primary' : itemsPerPage == 50}" (click)="itemsPerPageChange(50)">50</button>
-    <button type="button" class="btn btn-secondary" [ngClass]="{'btn-primary' : itemsPerPage == 100}" (click)="itemsPerPageChange(100)">100</button>
+    <button type="button" class="btn margin-right-6" [ngClass]="{'btn-primary' : itemsPerPage == 20, 'btn-secondary': itemsPerPage !== 20}" (click)="itemsPerPageChange(20)">20</button>
+    <button type="button" class="btn margin-right-6" [ngClass]="{'btn-primary' : itemsPerPage == 50, 'btn-secondary': itemsPerPage !== 50}" (click)="itemsPerPageChange(50)">50</button>
+    <button type="button" class="btn margin-right-6" [ngClass]="{'btn-primary' : itemsPerPage == 100, 'btn-secondary': itemsPerPage !== 100}" (click)="itemsPerPageChange(100)">100</button>
   </div>
+  <hr>
 <table class="table">
   <thead>
   <tr>

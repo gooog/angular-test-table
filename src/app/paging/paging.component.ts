@@ -1,11 +1,11 @@
-import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter, OnChanges} from '@angular/core';
 
 @Component({
     selector: 'app-paging',
     templateUrl: './paging.component.html',
     styleUrls: ['./paging.component.css']
 })
-export class PagingComponent implements OnInit {
+export class PagingComponent implements OnInit, OnChanges {
 
     @Input() totalPages = 1;
     @Input() activePage = 1;
@@ -16,6 +16,10 @@ export class PagingComponent implements OnInit {
     constructor() { }
 
     ngOnInit() {
+
+    }
+
+    ngOnChanges() {
         this.generatePages();
     }
 
