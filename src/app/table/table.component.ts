@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ApiService} from '../api.service';
 
 @Component({
@@ -12,7 +12,10 @@ export class TableComponent implements OnInit {
   itemsPerPage: number;
   currentPage: number;
   totalPages: number;
+  filter = {fieldName: '', orderType: ''};
   data: any[];
+
+  @ViewChild('searchInput') searchInput: ElementRef;
 
   constructor(private apiService: ApiService) { }
 
@@ -30,28 +33,26 @@ export class TableComponent implements OnInit {
     this.itemsPerPage = perPage;
     this.currentPage = 1;
     this.totalPages = Math.ceil(this.itemsTotal / this.itemsPerPage );
-
-    console.log(this.itemsPerPage, this.currentPage, this.totalPages);
-
+    this.searchInput.nativeElement.value = '';
     this.request();
   }
 
   request() {
-    this.apiService.load(this.currentPage, this.itemsPerPage).then( (response) => {
+    this.apiService.load(this.currentPage, this.itemsPerPage, this.filter).then( (response) => {
       this.itemsTotal = response.totalNum;
       this.data = response.data;
       this.totalPages = Math.ceil(this.itemsTotal / this.itemsPerPage);
     });
   }
 
-    pageChaned(p) {
+  pageChaned(p) {
       this.currentPage = p;
       this.request();
   }
 
   search(keyword: string) {
     if (keyword.length >= 2) {
-      this.apiService.search(keyword).then((data) => {
+      this.apiService.search(keyword, this.filter).then((data) => {
         this.itemsTotal = data.length;
         this.data = data;
         this.currentPage = 1;
@@ -61,6 +62,22 @@ export class TableComponent implements OnInit {
     } else {
       this.init();
     }
+  }
+
+  sortBy(fieldName: string) {
+    const generatedOrderType = (this.filter.fieldName === fieldName) && (this.filter.orderType === 'ASC') ? 'DESC' : 'ASC';
+    console.log(generatedOrderType);
+    this.filter = {fieldName: fieldName, orderType: generatedOrderType };
+    this.currentPage = 1;
+    this.request();
+  }
+
+  setSortableClassName(fieldName: string) {
+      if ( (this.filter.fieldName === fieldName) && (this.filter.orderType === 'ASC') ) {
+        return 'sorted-asc';
+      } else if ( (this.filter.fieldName === fieldName) && (this.filter.orderType === 'DESC') ) {
+        return 'sorted-desc';
+      }
   }
 
 }

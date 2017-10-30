@@ -6,19 +6,23 @@
     <button type="button" class="btn margin-right-6" [ngClass]="{'btn-primary' : itemsPerPage == 100, 'btn-secondary': itemsPerPage !== 100}" (click)="itemsPerPageChange(100)">100</button>
   </div>
   <hr>
-  <div class="row">
-    <input type="text" class="form-control" (keyup)="search($event.target.value)" placeholder="Enter search keyword here...">
-  </div>
-  <hr>
+
+      <div class="input-group">
+        <input type="text" class="form-control" (keyup)="search($event.target.value)" #searchInput placeholder="Enter search keyword here...">
+        <span class="input-group-btn">
+          <button class="btn btn-warning cursor-pointer" (click)="init(); searchInput.value = ''">Clear</button>
+        </span>
+      </div>
+
 <table class="table">
   <thead>
   <tr>
     <th>#</th>
-    <th>First Name</th>
-    <th>Last Name</th>
-    <th>Email</th>
-    <th>Gender</th>
-    <th>IP</th>
+    <th (click)="sortBy('first_name')" class="sort-by" [ngClass]="setSortableClassName('first_name')">First Name</th>
+    <th (click)="sortBy('last_name')" class="sort-by" [ngClass]="setSortableClassName('last_name')">Last Name</th>
+    <th (click)="sortBy('email')" class="sort-by" [ngClass]="setSortableClassName('email')">Email</th>
+    <th (click)="sortBy('gender')" class="sort-by" [ngClass]="setSortableClassName('gender')">Gender</th>
+    <th (click)="sortBy('ip_address')" class="sort-by" [ngClass]="setSortableClassName('ip_address')">IP</th>
   </tr>
   </thead>
   <tbody>
@@ -32,7 +36,7 @@
   </tr>
   </tbody>
 </table>
-  <div class="row" *ngIf="data">
+  <div *ngIf="data && totalPages > 1">
     <app-paging [totalPages]="totalPages" [activePage]="currentPage" (onPageChange)="pageChaned($event)"></app-paging>
   </div>
 </div>

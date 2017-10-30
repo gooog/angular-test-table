@@ -307,28 +307,44 @@ export class ApiService {
     {"id":299,"first_name":"Ronica","last_name":"Maling","email":"rmaling8a@pinterest.com","gender":"Female","ip_address":"198.207.110.14"},
     {"id":300,"first_name":"Brear","last_name":"Bennetto","email":"bbennetto8b@google.co.jp","gender":"Female","ip_address":"67.47.178.227"}];
 
-  load(currentPage: number, itemsPerPage: number): Promise<any> {
+  sortData(data, filter) {
+
+    if (filter.fieldName !== '') {
+        data.sort((a, b) => {
+            const obj1 = a[filter.fieldName].toString().toUpperCase();
+            const obj2 = b[filter.fieldName].toString().toUpperCase();
+            if (obj1 < obj2) {
+                return filter.orderType === 'ASC' ? -1 : 1;
+            }
+            if (obj1 > obj2) {
+                return filter.orderType === 'ASC' ? 1 : -1;
+            }
+            return 0;
+        });
+    }
+    return data;
+  }
+
+  load(currentPage: number, itemsPerPage: number, filter: any): Promise<any> {
+
     const sliceStartPoint = ( currentPage - 1 ) * itemsPerPage;
+    this.data = this.sortData(this.data, filter);
     const response = {totalNum: this.data.length, data: this.data.slice(sliceStartPoint, sliceStartPoint + itemsPerPage )}
+
     return Promise.resolve(response);
   }
 
-  search(keyWord: string): Promise<any> {
-    const response = this.data.filter( (arr) => {
-      /*Object.keys(arr).map((key) => {
-        const str = arr[key].toString();
-        const matchFound = false;
-        if (str.indexOf(keyWord) !== -1) {
-          matchFound = true;
-        }
-        });*/
+  search(keyWord: string, filter: any): Promise<any> {
 
+    this.data = this.sortData(this.data, filter);
+    const response = this.data.filter( (arr) => {
+        keyWord = keyWord.toLowerCase();
       if (
-        arr.first_name.toString().includes(keyWord) ||
-        arr.last_name.toString().includes(keyWord) ||
-        arr.email.toString().includes(keyWord) ||
-        arr.gender.toString().includes(keyWord) ||
-        arr.ip_address.toString().includes(keyWord)
+        arr.first_name.toString().toLowerCase().includes(keyWord) ||
+        arr.last_name.toString().toLowerCase().includes(keyWord) ||
+        arr.email.toString().toLowerCase().includes(keyWord) ||
+        arr.gender.toString().toLowerCase().includes(keyWord) ||
+        arr.ip_address.toString().toLowerCase().includes(keyWord)
       ) {
         return true;
       }

@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { TableComponent } from './table/table.component';
 import { ApiService } from './api.service';
 import { PagingComponent } from './paging/paging.component';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { PagingComponent } from './paging/paging.component';
     PagingComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]
