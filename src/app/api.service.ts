@@ -325,19 +325,24 @@ export class ApiService {
     return data;
   }
 
-  load(currentPage: number, itemsPerPage: number, filter: any): Promise<any> {
+  load(currentPage: number, itemsPerPage: number, filter: any, searchKeyword?: string): Promise<any> {
 
     const sliceStartPoint = ( currentPage - 1 ) * itemsPerPage;
     this.data = this.sortData(this.data, filter);
-    const response = {totalNum: this.data.length, data: this.data.slice(sliceStartPoint, sliceStartPoint + itemsPerPage )}
+    let dataCopy = this.data.slice();
+
+    if (searchKeyword) {
+      dataCopy = this.search(dataCopy, searchKeyword);
+    }
+
+    const response = {totalNum: dataCopy.length, data: dataCopy.slice(sliceStartPoint, sliceStartPoint + itemsPerPage )}
 
     return Promise.resolve(response);
   }
 
-  search(keyWord: string, filter: any): Promise<any> {
+  search(data: any, keyWord: string) {
 
-    this.data = this.sortData(this.data, filter);
-    const response = this.data.filter( (arr) => {
+    const response = data.filter( (arr) => {
         keyWord = keyWord.toLowerCase();
       if (
         arr.first_name.toString().toLowerCase().includes(keyWord) ||
@@ -350,7 +355,7 @@ export class ApiService {
       }
 
     });
-    return Promise.resolve(response);
+    return response;
   }
 
 }

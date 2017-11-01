@@ -14,6 +14,7 @@ export class TableComponent implements OnInit {
   totalPages: number;
   filter = {fieldName: '', orderType: ''};
   data: any[];
+  searchKeyword: string;
 
   @ViewChild('searchInput') searchInput: ElementRef;
 
@@ -38,7 +39,7 @@ export class TableComponent implements OnInit {
   }
 
   request() {
-    this.apiService.load(this.currentPage, this.itemsPerPage, this.filter).then( (response) => {
+    this.apiService.load(this.currentPage, this.itemsPerPage, this.filter, this.searchKeyword).then( (response) => {
       this.itemsTotal = response.totalNum;
       this.data = response.data;
       this.totalPages = Math.ceil(this.itemsTotal / this.itemsPerPage);
@@ -52,15 +53,11 @@ export class TableComponent implements OnInit {
 
   search(keyword: string) {
     if (keyword.length >= 2) {
-      this.apiService.search(keyword, this.filter).then((data) => {
-        this.itemsTotal = data.length;
-        this.data = data;
-        this.currentPage = 1;
-        this.itemsPerPage = 20;
-        this.totalPages = Math.ceil(this.itemsTotal / this.itemsPerPage);
-      });
-    } else {
-      this.init();
+      this.searchKeyword = keyword;
+      this.request();
+    } else if (keyword.length < 1) {
+      this.searchKeyword = null;
+      this.request();
     }
   }
 
